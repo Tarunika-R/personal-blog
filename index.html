@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+
+<title>MY BLOG</title>
+<style>
+  body {
+    background-image: url('bg.png'); 
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    font-family: Arial, sans-serif;
+  }
+
+  .nav {
+    background-color: #333;
+    color: #0a0101;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+
+  .nav ul {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+  }
+
+  .nav li {
+    display: inline;
+    margin-right: 20px;
+  }
+
+  .nav a {
+    text-decoration: none;
+    color: #0f0101;
+    font-size: large;
+  }
+
+  .header {
+    text-align: center;
+    color: #333;
+    margin: 20px 0;
+  }
+
+  .blog-post {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 20px;
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+
+  .author {
+    font-weight: bold;
+    color: #42464c;
+    font-size: large;
+  }
+
+  .comments {
+    background-color: #f8f8f8;
+    padding: 10px;
+    margin-top: 10px;
+  }
+
+  .comments-header {
+    font-size: 18px;
+    margin: 0;
+    padding-bottom: 10px;
+  }
+
+  .comment {
+    list-style: none;
+    margin-bottom: 5px;
+    border-left: 2px solid #57616b;
+    padding-left: 10px;
+    color: #333;
+  }
+
+  .comment-form {
+    margin-top: 10px;
+  }
+
+  .comment-input {
+    width: 80%;
+    padding: 5px;
+    border: 1px solid #ccc;
+  }
+
+  .comment-button {
+    background-color: rgb(202, 186, 165);
+    font-size: large;
+    border-radius: 20%;
+    color: #0e0d0d;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+
+  .comment-button:hover {
+    background-color: #0056b3;
+  }
+
+  .gallery-item {
+    text-align: center;
+  }
+
+  .gallery-item img {
+    max-width: 50%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 3px 3px 5px #888;
+  }
+
+  .gallery-item p {
+    color: #333;
+    font-size: 18px;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    font-weight: bold;
+  }
+
+  .video-item {
+    text-align: center;
+  }
+
+  .video-item iframe {
+    width: 100%;
+    max-width: 560px;
+    height: 315px;
+  }
+
+  .video-item p {
+    color: #333;
+  }
+
+  .button-container{
+    text-align: center;
+  }
+
+  .image-button{
+    display: inline-block;
+    margin: 0 10px;
+    text-align: center;
+    vertical-align: top;
+  }
+  .image-button img{
+    width: 300px;
+    height: auto;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 1.0);
+  }
+
+  .content{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 20px;
+    color: #333;
+    text-align: center;
+  }
+  
+  .blog-img{
+    width: 300px;
+    height: auto;
+  }
+
+  .blog-content{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 15px;
+  }
+
+  .blog-cmmt{
+    width: 20%;
+    height: auto;
+    color: black;
+    font-size: large;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background-color: rgba(202, 186, 165, 0.468);
+    border-radius: 25px;
+  }
+
+  a{
+    text-decoration: none;
+  }
+
+  .contact-button{
+    background-color: rgba(155, 129, 95, 0.495);
+    font-size: large;
+    border-radius: 20%;
+    color: #0e0d0d;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+
+  .contact-form{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 50vh;
+  }
+</style>
+<body>
+  <div ng-app="app">
+    <div ng-controller="NavController as nav" class = "nav">
+        <nav>
+            <ul>
+                <li><a href="#!/">Home</a></li>
+                <li><a href="#!/blog">Blog</a></li>
+                <li><a href="#!/gallery">Gallery</a></li>
+                <li><a href="#!/videos">Videos</a></li>
+                <li><a href="#!/contact">Contact</a></li>
+            </ul>
+        </nav>    
+    </div>
+
+    <div ng-view></div>
+
+    <script>
+      var app = angular.module("app", ["ngRoute"]);
+
+      app.config(function($routeProvider) {
+        $routeProvider
+          .when("/", {
+            template: `
+              <div class="home">
+                <h1 class="header">Welcome to Our Art and Crafts World</h1>
+                <p class="content">Explore our creative realm filled with beautiful artworks, exciting blog posts, stunning galleries, informative videos, and a way to connect with us.</p>
+                <div class="button-container">
+                  <a href="#!/blog" class="image-button"><img src="BLOG.png" alt="Blog"></a>
+                  <a href="#!/gallery" class="image-button"><img src="GALLERY.png" alt="Gallery"></a>
+                  <a href="#!/videos" class="image-button"><img src="VIDEOS.png" alt="Videos"></a>
+                  <a href="#!/contact" class="image-button"><img src="CONTACT.png" alt="Contact"></a>
+                </div>
+              </div>
+            `
+          })
+          .when("/blog", {
+            template: `
+              <h1 class="header">Art and Crafts Blog</h1>
+              <div ng-controller="BlogController as blog">
+                <div ng-repeat="post in blog.posts" class="blog-post">
+                  <h2>{{post.title}}</h2>
+                  <p class="author">By: {{post.author}}</p>
+                  <img class = "blog-img" ng-src="{{post.image}}" alt="Beautiful Canvas Painting">
+                  <p class="blog-content">{{post.content}}</p>
+                  <button class = "blog-cmmt" ng-click="blog.toggleComments(post)">Comments</button>
+                  <div ng-show="post.showComments" class="comments">
+                    <h3 class="comments-header">Comments:</h3>
+                    <ul>
+                      <li ng-repeat="comment in post.comments" class="comment">{{comment}}</li>
+                    </ul>
+                    <form ng-submit="blog.addComment(post)" class="comment-form">
+                      <input type="text" ng-model="post.newComment" placeholder="Add a comment..." class="comment-input">
+                      <button type="submit" class="comment-button">Submit</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            `
+          })
+          .when("/gallery", {
+            template: `
+              <h1 class="header">Art Gallery</h1>
+              <div ng-controller="GalleryController as gallery" class = "image-slider">
+                <div class="gallery-item" ng-repeat="item in gallery.items">
+                  <img ng-src="{{item.image}}" alt="{{item.title}}" class = "slider-image">
+                  <p class="content">{{item.description}}</p>
+                </div>
+              </div>
+            `
+          })
+          .when("/videos", {
+            template: `
+              <h1 class="header">Creative Videos</h1>
+              <div ng-controller="VideoController as video">
+                <div class="video-item" ng-repeat="item in video.items">
+                  <a href = "{{item.videoURL}}" target = "blank">
+                    <img ng-src = "{{item.thumbnail}}" alt = "Video Thumbnail"
+                  </a>
+                  <p class="content">{{item.description}}</p>
+                </div>
+              </div>
+            `
+          })
+          .when("/contact", {
+            template: `
+              <h1 class="header">Contact Us</h1>
+              <form ng-submit="nav.sendMessage()" class = "contact-form">
+                <label for="message">Your Message:</label>
+                <textarea ng-model="nav.message" rows="4" cols="50"></textarea>
+                <button class = "contact-button" type="submit">Send</button>
+              </form>
+            `
+            })
+            .otherwise({
+                redirectTo:"/"
+            });
+        });
+
+      app.controller("NavController", function() {
+        this.sendMessage = function() {
+          alert("Message sent: " + this.message);
+          this.message = "";
+        };
+      });
+
+      app.controller("BlogController", function() {
+        this.posts = [
+          {
+              title: "Creating a Beautiful Canvas",
+              author: "John Doe",
+              image: "johndoe.jpg",
+              content: "In this post, we'll explore the art of canvas painting and how to create stunning masterpieces. Check out our latest masterpiece: ",
+              showComments: false,
+              comments: [],
+              newComment: ""
+          },
+          {
+            title: "Crafting Handmade Greeting Cards",
+            author: "Jane Smith",
+            image: "greeting.jpg",
+            content: "Learn how to make personalized greeting cards with a variety of craft materials and techniques.",
+            showComments: false,
+            comments: [],
+            newComment: ""
+          },
+          {
+            title: "Sculpting with Clay",
+            author: "David Johnson",
+            image: "clay.jpg",
+            content: "Discover the world of clay sculpture and how to shape your imagination into 3D art.",
+            showComments: false,
+            comments: [],
+            newComment: ""
+          }
+        ];
+
+        this.toggleComments = function(post) {
+          post.showComments = !post.showComments;
+        };
+
+        this.addComment = function(post) {
+          post.comments.push(post.newComment);
+          post.newComment = "";
+        };
+      });
+
+      app.controller("GalleryController", function() {
+        this.items = [
+          {
+            title: "Artwork 1",
+            image: "medium-color-romantica-color-peaceful-colors-painting-water-original-imagbukkfgxw3fzb.webp",
+            description: "A stunning painting of nature."
+          },
+          {
+            title: "Artwork 2",
+            image: "maxresdefault.jpg",
+            description: "A beautiful sculpture made from clay."
+          },
+          {
+            title: "Artwork 3",
+            image: "diy-birthday-card-ideas.webp",
+            description: "Handcrafted greeting cards with intricate designs."
+          }
+        ];
+      });
+
+      app.controller("VideoController", function() {
+        this.items = [
+          {
+            title: "Video 1",
+            videoURL: "https://www.youtube.com/watch?v=KQQdLm_3fRA",
+            thumbnail: "https://img.youtube.com/vi/KQQdLm_3fRA/0.jpg",
+            description: "Watch a time-lapse of canvas painting."
+          },
+          {
+            title: "Video 2",
+            videoURL: "https://www.youtube.com/watch?v=8tEuKwA5PcM",
+            thumbnail: "https://img.youtube.com/vi/8tEuKwA5PcM/0.jpg",
+            description: "Learn the art of clay sculpting."
+          },
+          {
+            title: "Video 3",
+            videoURL: "https://www.youtube.com/watch?v=0_b5BxMKTGE",
+            thumbnail: "https://img.youtube.com/vi/0_b5BxMKTGE/0.jpg",
+            description: "Tutorial on creating handmade cards."
+          }
+        ];
+      });
+
+      app.filter("trusted", function($sce) {
+        return function(url) {
+          return $sce.trustAsResourceUrl(url);
+        };
+      });
+    </script>
+  </div>
+</body>
+</html>
